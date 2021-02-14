@@ -31,9 +31,7 @@ The denoiser is supposed to eliminate AWGN from received images since AWGN is on
 
 ### Recommended requirements
 
-If you have Python installed and have the libraries specified in `requirements.txt`, you can run directly run [`compressor.py`](app) and [`denoiser.py`](app). How ever, we recommend you to have [Anaconda](https://www.anaconda.com/products/individual) installed on your computer to create a virtual environment.
-
-- Anaconda
+If you have Python installed and have the libraries specified in `requirements.txt`, you can run directly run [`compressor.py`](app) and [`denoiser.py`](app). However, we recommend you to have [Anaconda](https://www.anaconda.com/products/individual) installed on your computer to create a virtual environment.
 
 
 **If you have**
