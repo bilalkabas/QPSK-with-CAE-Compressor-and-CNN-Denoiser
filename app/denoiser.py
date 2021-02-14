@@ -18,12 +18,16 @@ def dataClear ():
 	for f in os.listdir(dir):
 		os.remove(os.path.join(dir, f))
 
+# Global variables
 px = 100
-img_tx = cv2.resize(plt.imread('test-set/cifar10/cifar10_6.jpg'), (px, px))
+img_tx = cv2.resize(cv2.imread('img/cat.jpg', 0), (px, px))
+print(img_tx.shape)
 img_tx_temp = img_tx
 noise_level = 0.0
 font_size = 21
 org_px = 28
+bypass_labview = 1
+labview = 0
 
 def chooseImage (event):
 	global img_tx
@@ -107,7 +111,10 @@ def transmit (event):
 	binary = np.unpackbits(normalized)
 	# Save binary data to csv file
 	binary = np.ndarray.flatten(binary)
-	np.savetxt("data/encoded.csv", binary, delimiter=",")
+	if bypass_labview == 1:
+		np.savetxt("data/demod.csv", binary, delimiter=",")
+	else:
+		np.savetxt("data/encoded.csv", binary, delimiter=",")
 
 	# Check if demodulated data exists
 	file_path = 'data/demod.csv'
@@ -220,7 +227,6 @@ def increaseNoise (event):
 		plt.subplot2grid((30, 60), (11, 2), colspan=17, rowspan=17)
 		img_tx = img_tx.reshape(px,px)
 		img_tx = img_tx_temp + noise_level*255*np.random.normal(0, 1, img_tx.shape)
-		img_tx = np.clip(img_tx, 0, 255)
 		plt.imshow(cv2.resize((img_tx), (org_px,org_px)))
 		img_tx = img_tx.astype('float32') / 255.
 		plt.axis('off')
@@ -245,12 +251,24 @@ def decreaseNoise (event):
 		plt.subplot2grid((30, 60), (11, 2), colspan=17, rowspan=17)
 		img_tx = img_tx.reshape(px,px)
 		img_tx = img_tx_temp + noise_level*255*np.random.normal(0, 1, img_tx.shape)
-		img_tx = np.clip(img_tx, 0, 255)
 		plt.imshow(cv2.resize(img_tx, (org_px,org_px)))
 		img_tx = img_tx.astype('float32') / 255.
 		plt.axis('off')
 		plt.gray()
 		plt.show()
+
+
+def bypassLabview (event):
+	global bypass_labview
+	global labview
+
+	if bypass_labview == 0:
+		bypass_labview = 1
+		labview.color='#ffa8a8'
+	else:
+		bypass_labview = 0
+		labview.color='#a8ffad'
+	plt.show()
 
 
 # Figure window configurations
@@ -366,6 +384,12 @@ ax3.text(1.42, 0.97, noise_level, verticalalignment='bottom',
 	horizontalalignment='left', color='#eee', fontsize=font_size)
 plt.axis('off')
 
+# Bypass LabVIEW
+labview = plt.subplot2grid((30, 40), (1, 35), colspan=2, rowspan=1)
+labview = Button(ax=labview,
+		  color='#ff9c9c',
+		  label='LabVIEW')
+
 # Additional elements
 img = plt.imread('img/bar.png')
 ax4 = plt.subplot2grid((30, 60), (28, 2), colspan=17, rowspan=1)
@@ -384,5 +408,6 @@ axButton1.on_clicked(transmit)
 axButton2.on_clicked(chooseImage)
 increase.on_clicked(increaseNoise)
 decrease.on_clicked(decreaseNoise)
+labview.on_clicked(bypassLabview)
 
 plt.show()
