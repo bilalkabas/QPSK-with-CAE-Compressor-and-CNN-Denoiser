@@ -11,15 +11,18 @@ from keras.models import Model, load_model
 import os.path
 import time
 
-# Clear metadata
+# Clear past data
 def dataClear ():
 	dir = os.getcwd() + "/data"
 	for f in os.listdir(dir):
 		os.remove(os.path.join(dir, f))
 
+# Global variables
 img_tx = plt.imread('img/2.jpg')
 img_tx_temp = img_tx
 noise_level = 0.0
+bypass_labview = 1
+labview = 0
 
 def chooseImage (event):
 	global img_tx
@@ -73,6 +76,7 @@ def chooseImage (event):
 
 def compress (event):
 	global img_tx
+	global bypass_labview
 	dataClear()
 	
 	img_tx = img_tx.reshape(1,28,28,1)
@@ -84,7 +88,10 @@ def compress (event):
 	binary = np.unpackbits(normalized)
 	# Save binary data to csv file
 	binary = np.ndarray.flatten(binary)
-	np.savetxt("data/encoded.csv", binary, delimiter=",")
+	if bypass_labview == 1:
+		np.savetxt("data/demod.csv", binary, delimiter=",")
+	else:
+		np.savetxt("data/encoded.csv", binary, delimiter=",")
 
 	# Check if demodulated data exists
 	file_path = 'data/demod.csv'
@@ -97,9 +104,9 @@ def compress (event):
 		demod_bin = genfromtxt(file_path, delimiter=',')
 		demod_bin = np.reshape(demod_bin, (int(len(demod_bin)/8), 8)).astype(int)
 		demod_dec = np.packbits(demod_bin)
-		demod_float = demod_dec.astype('float32') / 30
+		demod_float = demod_dec.astype('float32')
 		encoded = np.reshape(demod_float, (1,4,4,8))
-		decoded = decoder.predict(encoded)
+		decoded = decoder.predict(encoded/50)
 
 		# Show decoded image
 		plt.subplot2grid((30, 40), (11, 20), colspan=17, rowspan=17)
@@ -165,7 +172,6 @@ def increaseNoise (event):
 		plt.subplot2grid((30, 40), (11, 2), colspan=17, rowspan=17)
 		img_tx = img_tx.reshape(28,28)
 		img_tx = img_tx_temp + noise_level*255*np.random.normal(0, 1, img_tx.shape)
-		img_tx = np.clip(img_tx, 0, 255)
 		plt.imshow(img_tx)
 		img_tx = img_tx.astype('float32') / 255.
 		plt.axis('off')
@@ -188,12 +194,24 @@ def decreaseNoise (event):
 		plt.subplot2grid((30, 40), (11, 2), colspan=17, rowspan=17)
 		img_tx = img_tx.reshape(28,28)
 		img_tx = img_tx_temp + noise_level*255*np.random.normal(0, 1, img_tx.shape)
-		img_tx = np.clip(img_tx, 0, 255)
 		plt.imshow(img_tx)
 		img_tx = img_tx.astype('float32') / 255.
 		plt.axis('off')
 		plt.gray()
 		plt.show()
+
+
+def bypassLabview (event):
+	global bypass_labview
+	global labview
+
+	if bypass_labview == 0:
+		bypass_labview = 1
+		labview.color='#ffa8a8'
+	else:
+		bypass_labview = 0
+		labview.color='#a8ffad'
+	plt.show()
 
 
 # Figure window configurations
@@ -284,6 +302,12 @@ ax3.text(1.42, 0.97, noise_level, verticalalignment='bottom',
 	horizontalalignment='left', color='#eee', fontsize=20)
 plt.axis('off')
 
+# Bypass LabVIEW
+labview = plt.subplot2grid((30, 40), (1, 34), colspan=3, rowspan=1)
+labview = Button(ax=labview,
+		  color='#ff9c9c',
+		  label='LabVIEW')
+
 # Additional elements
 img = plt.imread('img/bar.png')
 ax4 = plt.subplot2grid((30, 40), (28, 2), colspan=17, rowspan=1)
@@ -294,10 +318,12 @@ ax5 = plt.subplot2grid((30, 40), (28, 20), colspan=17, rowspan=1)
 p = plt.imshow(img)
 plt.axis('off')
 
+# Callbacks
 axButton1.on_clicked(compress)
 axButton2.on_clicked(chooseImage)
 increase.on_clicked(increaseNoise)
 decrease.on_clicked(decreaseNoise)
+labview.on_clicked(bypassLabview)
 
 # Classify the transmitted image for the first time
 classify()
