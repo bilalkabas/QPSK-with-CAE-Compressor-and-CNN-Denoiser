@@ -9,6 +9,8 @@ This repository contains implementation of a QPSK-based telecommunication system
 
 ## Getting Started
 
+<img align="right" width="400" src="https://user-images.githubusercontent.com/53112883/107996910-9a835880-6ff2-11eb-8140-e100847c6d0e.png">
+
 LabVIEW Communications System Design Suite is where you can connect to USRP-2900, a software defined radio, and use it as transmitter and receiver. In this application, we basically send an image and receive it back. In this project, there are two main aims.
 
 - Increase the data rate using image compression
@@ -88,7 +90,7 @@ python denoiser.py
 
 For this, you need to have [LabVIEW Communications System Design Suite](https://www.ni.com/en-tr/support/downloads/software-products/download.labview-communications-system-design-suite.html#306816) installed and also an USRP connected to your computer. In this research, we used USRP-2900 with lookback cable connected.
 
-Go to main directory of this project and open `QPSK_Main.lvproject`. On the left, you should see two project files: `QPSK_TX.gvi` and `QPSK_RX.gvi`. Open and run `QPSK_TX.gvi`. It will open up the CAE compressor or CNN denoiser GUI based on your selection. Select the image that you want to process and transmit then click 'Start'. Open and run `QPSK_RX.gvi`. Now, you should see the received image on the GUI.
+Go to main directory of this project and open `QPSK_Main.lvproject`. On the left, you should see two project files: `QPSK_TX.gvi` and `QPSK_RX.gvi`. Open and run `QPSK_TX.gvi`. It will open up the CAE compressor or CNN denoiser GUI based on your selection. Click the 'LabVIEW' button on the top-right corner so it turns to green. Select the image that you want to process and transmit then click 'Start'. Open and run `QPSK_RX.gvi`. Now, you should see the received image on the GUI.
 
 ## Authors
 
