@@ -92,6 +92,10 @@ For this, you need to have [LabVIEW Communications System Design Suite](https://
 
 Go to main directory of this project and open `QPSK_Main.lvproject`. On the left, you should see two project files: `QPSK_TX.gvi` and `QPSK_RX.gvi`. Open and run `QPSK_TX.gvi`. It will open up the CAE compressor or CNN denoiser GUI based on your selection. Click the 'LabVIEW' button on the top-right corner so it turns to green. Select the image that you want to process and transmit then click 'Start'. Open and run `QPSK_RX.gvi`. Now, you should see the received image on the GUI.
 
+## References
+
+[1] Y. LeCun, C. Cortes, and C. Burges, “Mnist handwritten digit database,” ATT Labs [Online]. Available: http://yann.lecun.com/exdb/mnist, vol. 2, 2010
+
 ## Authors
 
 - [Samet Öğüten](https://github.com/sametoguten)
