@@ -33,10 +33,62 @@ The denoiser is supposed to eliminate AWGN from received images since AWGN is on
 
 If you have Python installed and have the libraries specified in `requirements.txt`, you can run directly run [`compressor.py`](app) and [`denoiser.py`](app). However, we recommend you to have [Anaconda](https://www.anaconda.com/products/individual) installed on your computer to create a virtual environment.
 
+#### 1. Clone the repository
 
-**If you do not have LabVIEW Communications**
+Open the `Anaconda Command Prompt` and clone this repository.
+
+```
+git clone https://github.com/bilalkabas/QPSK-with-CAE-Compressor-and-CNN-Denoiser
+```
+
+#### 2. Create a virtual environment in Anaconda
+
+Create the environment `comm-env`
+
+```
+conda create -n comm-env python==3.8
+```
+
+Activate the environment
 
 
+```
+conda activate comm-env
+```
+
+#### 3. Install required Python libraries
+
+```
+cd QPSK-with-CAE-Compressor-and-CNN-Denoiser
+
+pip install -r requirements.txt
+```
+
+#### 4. Load data sets (optional)
+
+At this point, you can use the existing handwritten digits in `app/test-set` directory or you may go and download [CIFAR10](https://www.cs.toronto.edu/~kriz/cifar.html) and [MNIST handwritten digits](http://yann.lecun.com/exdb/mnist/) and save them in `app/test-set/cifar10` and `app/test-set/mnist` directories respectively.
+
+#### 5. Run the CAE compressor
+
+```
+cd app
+
+python compressor.py
+```
+
+#### 6. Run the CNN denoiser
+
+Make sure that you are in the `app` directory.
+
+```
+python denoiser.py
+```
+
+#### 7. Transmit and receive data in LabVIEW using USRP (optional)
+
+For this, you need to have [LabVIEW Communications System Design Suite](https://www.ni.com/en-tr/support/downloads/software-products/download.labview-communications-system-design-suite.html#306816) installed and also an USRP connected to your computer. In this research, we used USRP-2900 with lookback cable connected.
+
+Go to main directory of this project and open `QPSK_Main.lvproject`. On the left, you should see two project files: `QPSK_TX.gvi` and `QPSK_RX.gvi`. Open and run `QPSK_TX.gvi`. It will open up the CAE compressor or CNN denoiser GUI based on your selection. Select the image that you want to process and transmit then click 'Start'. Open and run `QPSK_RX.gvi`. Now, you should see the received image on the GUI.
 
 ## Authors
 
