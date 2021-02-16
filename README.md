@@ -2,6 +2,7 @@
 
 [![LabVIEW Version](https://img.shields.io/badge/LabVIEW-Comms%202.0-%234285F4?style=flat-square)](https://www.ni.com/en-tr/support/downloads/software-products/download.labview-communications-system-design-suite.html#306816)
 [![license](https://img.shields.io/badge/license-AGPL%203.0-%23F65314?style=flat-square)](LICENSE)
+[![DOI](https://img.shields.io/badge/DOI-10.13140/RG.2.2.33830.65602-%239aed00?style=flat-square)](https://www.researchgate.net/publication/349346715_Optimization_of_QPSK-Based_Digital_Communication_Systems_Using_CAE_Compression_and_CNN_Denoising)
 
 This repository contains implementation of a QPSK-based telecommunication system optimized using deep learning based image compression and denoising in LabVIEW Communications environment using Python and Keras. **To run the CAE compressor and CNN denoiser, you do not have to have LabVIEW installed**. For more information about the research, please refer to the [paper]().
 
