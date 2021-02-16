@@ -97,6 +97,8 @@ Go to main directory of this project and open `QPSK_Main.lvproject`. On the left
 
 [1] Y. LeCun, C. Cortes, and C. Burges, “Mnist handwritten digit database,” ATT Labs [Online]. Available: http://yann.lecun.com/exdb/mnist, vol. 2, 2010
 
+**Include Files:** B. A. Black, Introduction to Communication Systems Lab Based Learning with NI USRP and LabVIEW Communications. National Instruments, 2014.
+
 ## Authors
 
 - [Samet Öğüten](https://github.com/sametoguten)
